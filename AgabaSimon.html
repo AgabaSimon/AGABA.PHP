@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document Scanner & OCR App</title>
+    <style>
+        .preview-area {
+            border: 2px dashed #007bff;
+            height: 300px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+        }
+        .folder-list, .scan-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Document Scanner & OCR App</h1>
+
+    <!-- 1. Simple and Intuitive Layout -->
+    <div class="text-center my-4">
+        <h2>Quick Access</h2>
+        <button class="btn btn-primary btn-lg"><a href="scan.html">Scan</a></button>
+        <button class="btn btn-info btn-lg" onclick="openSettings()">Settings</button>
+    </div>
+
+    <!-- 2. Guided Scanning Process -->
+    <div class="text-center my-4">
+        <h2>Document Preview</h2>
+        <div class="preview-area">
+            <p>Document Preview Area</p>
+        </div>
+        <button class="btn btn-secondary" onclick="capturePreview()">Capture Preview</button>
+    </div>
+
+    <!-- 3. Post-Scan Editing Tools -->
+    <h2>Edit Your Scan</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Image Adjustments</h4>
+            <input type="range" class="form-control-range" id="brightnessRange" min="0" max="100" step="1">
+            <label for="brightnessRange">Brightness</label>
+            <input type="range" class="form-control-range" id="contrastRange" min="0" max="100" step="1">
+            <label for="contrastRange">Contrast</label>
+        </div>
+        <div class="col-md-6">
+            <h4>Text Editing</h4>
+            <textarea class="form-control" rows="8" placeholder="Edit OCR text here..."></textarea>
+        </div>
+    </div>
+
+    <!-- 4. Efficient OCR Features -->
+    <h2 class="mt-4">OCR Options</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Language Selection</h4>
+            <select class="form-control">
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+                <option>Chinese</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 5. File Management and Organization -->
+    <h2 class="mt-4">Manage Your Files</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Folders</h4>
+            <ul class="list-group folder-list">
+                <li class="list-group-item">Folder 1</li>
+                <li class="list-group-item">Folder 2</li>
+                <li class="list-group-item">Folder 3</li>
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <h4>Recent Scans</h4>
+            <ul class="list-group scan-list">
+                <li class="list-group-item">Scan 1</li>
+                <li class="list-group-item">Scan 2</li>
+                <li class="list-group-item">Scan 3</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 6. Integration and Sharing Options -->
+    <div class="text-center my-4">
+        <h2>Share Your Document</h2>
+        <button class="btn btn-success" onclick="shareDocument()">Share via Email</button>
+        <button class="btn btn-secondary" onclick="shareToCloud()">Share to Cloud</button>
+    </div>
+
+    <!-- 7. User Customization -->
+    <h2 class="mt-4">Customization</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Theme Options</h4>
+            <button class="btn btn-light" onclick="changeTheme('light')">Light Mode</button>
+            <button class="btn btn-dark" onclick="changeTheme('dark')">Dark Mode</button>
+        </div>
+        <div class="col-md-6">
+            <h4>Text Size</h4>
+            <select class="form-control" id="textSize">
+                <option>Small</option>
+                <option>Medium</option>
+                <option>Large</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 8. Accessibility Features -->
+    <h2 class="mt-4">Accessibility Options</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Voice Commands</h4>
+            <button class="btn btn-warning" onclick="activateVoice()">Activate Voice Commands</button>
+        </div>
+        <div class="col-md-6">
+            <h4>High Contrast</h4>
+            <button class="btn btn-info" onclick="toggleContrast()">Toggle High Contrast</button>
+        </div>
+    </div>
+
+    <!-- 9. Feedback and Support -->
+    <h2 class="mt-4">Support</h2>
+    <div class="text-center">
+        <button class="btn btn-outline-primary" onclick="openHelp()">Help Section</button>
+        <button class="btn btn-outline-danger" onclick="provideFeedback()">Feedback</button>
+    </div>
+
+    <!-- 10. About Section -->
+    <h2 class="mt-4">About the App</h2>
+    <p>This app allows you to scan documents, perform OCR, and manage your scanned files with ease. Built with user-friendly design in mind.</p>
+</div>
+
+<script>
+    function startScan() {
+        alert('Starting the scan...');
+    }
+
+    function capturePreview() {
+        alert('Capturing document preview...');
+    }
+
+    function openSettings() {
+        alert('Opening settings...');
+    }
+
+    function shareDocument() {
+        alert('Sharing via Email...');
+    }
+
+    function shareToCloud() {
+        alert('Sharing to Cloud...');
+    }
+
+    function changeTheme(theme) {
+        alert('Changing to ' + theme + ' mode...');
+    }
+
+    function activateVoice() {
+        alert('Voice commands activated...');
+    }
+
+    function toggleContrast() {
+        alert('Toggling high contrast...');
+    }
+
+    function openHelp() {
+        alert('Opening help section...');
+    }
+
+    function provideFeedback() {
+        alert('Providing feedback...');
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

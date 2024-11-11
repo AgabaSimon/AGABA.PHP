@@ -1,0 +1,86 @@
+<div class="container mt-5">
+    <h1 class="text-center">Document Scanner & OCR App</h1>
+
+    <!-- 1. Simple and Intuitive Layout -->
+    <div class="text-center my-4">
+        <h2>Quick Access</h2>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+        <button class="btn btn-primary btn-lg" onclick="document.getElementById('fileInput').click()">Start Scan</button>
+        <button class="btn btn-info btn-lg" onclick="openSettings()">Settings</button>
+    </div>
+
+    <!-- 2. Guided Scanning Process -->
+    <div class="text-center my-4">
+        <h2>Document Preview</h2>
+        <div class="preview-area" id="previewArea">
+            <img id="previewImage" style="max-width: 100%; max-height: 100%; display: none;" alt="Preview">
+            <p id="placeholderText">Document Preview Area</p>
+        </div>
+        <button class="btn btn-secondary" onclick="performOCR()">Capture Preview</button>
+    </div>
+
+    <!-- Editable Text Area for OCR Result -->
+    <h2 class="mt-4">OCR Result</h2>
+    <textarea id="ocrTextArea" class="form-control" rows="10" placeholder="Extracted text will appear here..."></textarea>
+    <button class="btn btn-success mt-3" onclick="downloadAsWord()">Download as Word Document</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
+<script>
+    let ocrResult = ''; // Global variable to store OCR result
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('placeholderText').style.display = 'none';
+                const img = document.getElementById('previewImage');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function performOCR() {
+        const imgElement = document.getElementById('previewImage');
+        if (imgElement.src) {
+            Tesseract.recognize(
+                imgElement.src,
+                'eng',
+                {
+                    logger: m => console.log(m) // Optional: log OCR progress
+                }
+            ).then(({ data: { text } }) => {
+                console.log("OCR completed, extracted text:", text);
+                ocrResult = text.trim(); // Store OCR result
+                document.getElementById('ocrTextArea').value = ocrResult; // Display in textarea
+                alert('OCR Completed. The text has been extracted.');
+            }).catch(err => {
+                console.error('OCR error:', err);
+                alert('Failed to extract text. Please try again.');
+            });
+        } else {
+            alert('Please upload a document to scan.');
+        }
+    }
+
+    function downloadAsWord() {
+        if (ocrResult) {
+            const blob = new Blob(
+                [`<html><head><meta charset="UTF-8"></head><body><pre>${ocrResult}</pre></body></html>`], 
+                { type: 'application/msword' }
+            );
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'scanned_document.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            alert('No text to convert. Please perform OCR first.');
+        }
+    }
+</script>
+
